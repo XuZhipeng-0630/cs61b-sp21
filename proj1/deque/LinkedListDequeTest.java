@@ -1,6 +1,10 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 
 
@@ -125,5 +129,67 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
 
+    }
+
+    @Test
+    public void iteratorTraversesInDequeOrderTest() {
+        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+
+        Iterator<Integer> iterator = deque.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(1), iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(2), iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(3), iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void iteratorNextThrowsWhenExhaustedTest() {
+        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
+        deque.addLast(1);
+
+        Iterator<Integer> iterator = deque.iterator();
+        iterator.next();
+        iterator.next();
+    }
+
+    @Test
+    public void equalsMatchesEquivalentDequesTest() {
+        LinkedListDeque<Integer> linkedListDeque = new LinkedListDeque<>();
+        LinkedListDeque<Integer> sameLinkedListDeque = new LinkedListDeque<>();
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+
+        for (int i = 0; i < 5; i++) {
+            linkedListDeque.addLast(i);
+            sameLinkedListDeque.addLast(i);
+            arrayDeque.addLast(i);
+        }
+
+        assertTrue(linkedListDeque.equals(linkedListDeque));
+        assertTrue(linkedListDeque.equals(sameLinkedListDeque));
+        assertTrue(linkedListDeque.equals(arrayDeque));
+    }
+
+    @Test
+    public void equalsRejectsDifferentObjectsTest() {
+        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
+        LinkedListDeque<Integer> differentContents = new LinkedListDeque<>();
+        LinkedListDeque<Integer> differentSize = new LinkedListDeque<>();
+
+        deque.addLast(1);
+        deque.addLast(2);
+        differentContents.addLast(1);
+        differentContents.addLast(3);
+        differentSize.addLast(1);
+
+        assertFalse(deque.equals(null));
+        assertFalse(deque.equals("not a deque"));
+        assertFalse(deque.equals(differentContents));
+        assertFalse(deque.equals(differentSize));
     }
 }
