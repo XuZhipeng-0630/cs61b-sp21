@@ -7,15 +7,14 @@ import deque.*;
  * A client that uses the synthesizer package to replicate a plucked guitar string sound
  */
 public class GuitarHero {
-    public static final String keyboard = "q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' ";
-    public static Deque<GuitarString> GuitarStringDeque;
+    public static final String KEYBOARD = "q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' ";
 
     public static void main(String[] args) {
 
-        GuitarStringDeque = new LinkedListDeque<>();
-        for(int i = 0; i < keyboard.length(); ++i) {
+        Deque<GuitarString> guitarStringDeque = new LinkedListDeque<>();
+        for (int i = 0; i < KEYBOARD.length(); ++i) {
             double freq = 440 * Math.pow(2, (i - 24) / 12.0);
-            GuitarStringDeque.addLast(new GuitarString(freq));
+            guitarStringDeque.addLast(new GuitarString(freq));
         }
 
         while (true) {
@@ -23,9 +22,9 @@ public class GuitarHero {
             /* check if the user has typed a key; if so, process it */
             if (StdDraw.hasNextKeyTyped()) {
                 char key = StdDraw.nextKeyTyped();
-                for (int i = 0; i < keyboard.length(); ++i) {
-                    if (key == keyboard.charAt(i)) {
-                        GuitarStringDeque.get(i).pluck();
+                for (int i = 0; i < KEYBOARD.length(); ++i) {
+                    if (key == KEYBOARD.charAt(i)) {
+                        guitarStringDeque.get(i).pluck();
                         break;
                     }
                 }
@@ -33,15 +32,15 @@ public class GuitarHero {
 
             /* compute the superposition of samples */
             double sample = 0;
-            for (int i = 0; i < keyboard.length(); ++i) {
-                sample = sample + GuitarStringDeque.get(i).sample();
+            for (int i = 0; i < KEYBOARD.length(); ++i) {
+                sample = sample + guitarStringDeque.get(i).sample();
             }
             /* play the sample on standard audio */
             StdAudio.play(sample);
 
             /* advance the simulation of each guitar string by one step */
-            for (int i = 0; i < keyboard.length(); ++i) {
-                GuitarStringDeque.get(i).tic();
+            for (int i = 0; i < KEYBOARD.length(); ++i) {
+                guitarStringDeque.get(i).tic();
             }
         }
     }
