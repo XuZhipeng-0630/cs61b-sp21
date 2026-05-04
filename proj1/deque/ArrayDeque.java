@@ -77,10 +77,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
+//    @Override
+//    public boolean isEmpty() {
+//        return size == 0;
+//    }
 
 
     @Override
@@ -183,22 +183,5 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return !it1.hasNext() && !it2.hasNext();
     }
 
-    /**
-     public static void main(String[] args) {
-     ArrayDeque<Integer> deque = new ArrayDeque<>();
-     deque.addFirst(1);
-     deque.addLast(2);
-     deque.addLast(3);
-     deque.addLast(4);
-     deque.addLast(5);
-     deque.addLast(6);
-     deque.addLast(7);
-     deque.addLast(8);
-     deque.addLast(9);
-     deque.removeFirst();
-     deque.removeLast();
-     deque.printDeque();
-     }
-     */
 }
 
