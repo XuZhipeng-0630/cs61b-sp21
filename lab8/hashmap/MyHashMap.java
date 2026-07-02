@@ -23,19 +23,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             key = k;
             value = v;
         }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key, value);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Node otherNode = (Node) o;
-            return key.equals(otherNode.key) && value.equals(otherNode.value);
-        }
     }
 
     /* Instance Variables */
