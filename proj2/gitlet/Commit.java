@@ -7,6 +7,9 @@ import java.util.Date; // TODO: You'll likely use this in this class
 import java.util.Map;
 import java.util.TreeMap;
 
+import static gitlet.Utils.serialize;
+import static gitlet.Utils.sha1;
+
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
  *  does at a high level.
@@ -27,18 +30,18 @@ public class Commit implements Serializable {
     /** Time at which this commit was created. */
     private final Date timestamp;
     /** IDs of this commit's parent commits; SECOND_PARENT is for merges. */
-    private final String parent;
-    private final String secondParent;
+    private final String parentId;
+    private final String secondParentId;
     /** Mapping from tracked file names to blob IDs. */
     private final TreeMap<String, String> trackedFiles;
 
     /** Creates a commit with the supplied metadata and tracked files. */
-    public Commit(String message, Date timestamp, String parent,
-                  String secondParent, Map<String, String> trackedFiles) {
+    public Commit(String message, Date timestamp, String parentId,
+                  String secondParentId, Map<String, String> trackedFiles) {
         this.message = message;
         this.timestamp = new Date(timestamp.getTime());
-        this.parent = parent;
-        this.secondParent = secondParent;
+        this.parentId = parentId;
+        this.secondParentId = secondParentId;
         this.trackedFiles = new TreeMap<>(trackedFiles);
     }
 
@@ -50,7 +53,7 @@ public class Commit implements Serializable {
 
     /** Returns this commit's SHA-1 object ID. */
     public String id() {
-        return Utils.sha1(Utils.serialize(this));
+        return sha1(serialize(this));
     }
 
     public String getMessage() {
@@ -61,12 +64,20 @@ public class Commit implements Serializable {
         return new Date(timestamp.getTime());
     }
 
-    public String getParent() {
-        return parent;
+    public String getParentId() {
+        return parentId;
     }
 
-    public String getSecondParent() {
-        return secondParent;
+    public String getSecondParentId() {
+        return secondParentId;
+    }
+
+    public TreeMap<String, String> getTrackedFiles() {
+        return trackedFiles;
+    }
+
+    public boolean tracksFile(String fileName) {
+        return trackedFiles.containsKey(fileName);
     }
     /* TODO: fill in the rest of this class. */
 }
